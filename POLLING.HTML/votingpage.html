@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+           background: url('./IMG-20250703-WA0006.jpg') no-repeat center center fixed;
+            background-size: cover;
+            
+            text-align: center;
+            margin: px;
+            padding: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .candidates-row {
+            display: flex;
+            justify-content: center;
+            gap: 118px;
+            margin-bottom:  17px;
+        }
+        h1{
+            font-size: 3rem;
+        }
+        .candidate {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin:  px;
+            text-align: center;
+        }
+        .candidate img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            border-radius: 0%;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 11px 10px;
+            font-size: 20px;
+            color: white;
+            background-color: #1b1a17;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+        }
+        .candidate input[type="radio"] {
+            width: 35px; 
+            height: 25px; 
+            margin-bottom: 13px; 
+        }
+        #email {
+            width: 350px; 
+            height: 25px; 
+            font-size: 20px;
+            padding: 10px; 
+            border: 1px solid #120f0f; 
+            border-radius: 7px; 
+        }
+        .btn:hover {
+            background-color: #076ef5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VOTE FOR YOUR PARTY!!</h1>
+        <form id="vote-form" onsubmit="submitVote(event)">
+            <label for="email"><h2>ENTER YOUR EMAIL</h2></label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <p></p>
+            <!-- First Row -->
+            <div class="candidates-row">
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="TVK" id="tvk">
+                    <img src="tvk.webp" alt="TVK">
+                    <label for="tvk"><h3>T V K</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="DMK" id="dmk">
+                    <img src="dmk.png" alt="DMK">
+                    <label for="dmk"><h3>D M K</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="BJP" id="bjp">
+                    <img src="bjp.png" alt="BJP">
+                    <label for="bjp"><h3>B J P</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="ADMK" id="admk">
+                    <img src="admk.png" alt="ADMK">
+                    <label for="admk"><h3>A D M K</h3></label>
+                </div>
+            </div>
+            <!-- Second Row -->
+            <div class="candidates-row">
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="PMK" id="PMK">
+                    <img src="Pmk_flag.jpg" alt="PMK">
+                    <label for="PMK"><h3>P M K</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="VCK" id="vck">
+                    <img src="Viduthalai_Chiruthaigal_Katchi_banner.png" alt="VCK">
+                    <label for="vck"><h3>V C K</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="NTK" id="NTK">
+                    <img src="Naam_tamilar_katchi_flag.jpg" alt="NTK">
+                    <label for="NTK"><h3>N T K</h3></label>
+                </div>
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="CPI" id="CPI">
+                    <img src="CPI-banner.svg.png" alt="CPI">
+                    <label for="CPI"><h3>C P I</h3></label>
+                </div>
+            </div>
+            <button type="submit" class="btn">Submit Vote</button>
+        </form>
+    </div>
+    <script>
+        function submitVote(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const selectedCandidate = document.querySelector('input[name="candidate"]:checked')?.value;
+            if (!selectedCandidate) {
+                alert("Please select a candidate.");
+                return;
+            }
+            const voters = JSON.parse(localStorage.getItem('voters')) || {};
+            const votes = JSON.parse(localStorage.getItem('votes')) || {};
+            if (voters[email]) {
+                alert("You have already voted.");
+                return;
+            }
+            voters[email] = selectedCandidate;
+            localStorage.setItem('voters', JSON.stringify(voters));
+            if (votes[selectedCandidate]) {
+                votes[selectedCandidate]++;
+            } else {
+                votes[selectedCandidate] = 1;
+            }
+            localStorage.setItem('votes', JSON.stringify(votes));
+            alert(`Thank you for voting! You voted for ${selectedCandidate}.`);
+            document.getElementById('vote-form').reset();
+            window.location.href = "thankyou.html";
+        }
+    </script>
+</body>
+</html>

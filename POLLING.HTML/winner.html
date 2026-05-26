@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Election Winner</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            background-image: url('./winner-background-first-place-of-competition-vector-47951134.jpg');
+            background-size: cover;          /* Fill entire viewport */
+            background-repeat: no-repeat;    /* Prevent repeating */
+            background-position: px 1px;     /* Center the image */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;     /* Text at top */
+            align-items: flex-start;         /* Align left */
+            padding: 50px 200px  100px;    /* Adjust padding as needed */
+            box-sizing: border-box;
+            height: 100vh;
+            color: #fafafa;
+        }
+        h1 {
+            font-size: 30px;
+            margin:  5px ;
+            color: #fdfdfd;
+            text-shadow: px 2px 4px rgba(0,0,0,0.7);
+        }
+        .winner {
+            font-size: 44px;
+            font-weight: bold;
+            margin: 20px;
+            color: #fafafa;
+            margin-bottom: 2px 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .btn {
+            margin:300px 150px ;
+            padding: 10px 20px;
+            font-size:20px;
+            color: rgb(18, 17, 17);
+            background-color: #ffffffcc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #d57171;
+            color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1><b>WINNER OF THE ELECTION IS!!</b></h1>
+    <p class="winner" id="winnerName"></p>
+    <button class="btn" onclick="window.location.href='admin.html'">BACK</button>
+
+    <script>
+        function displayWinner() {
+            const votes = JSON.parse(localStorage.getItem('votes')) || {};
+            let winner = 'No votes cast yet';
+            let maxVotes = 0;
+
+            for (const [candidate, voteCount] of Object.entries(votes)) {
+                if (voteCount > maxVotes) {
+                    maxVotes = voteCount;
+                    
+                    winner = `${candidate} WITH ${voteCount} VOTES!`;
+                   
+                }
+            }
+
+            document.getElementById('winnerName').textContent = winner;
+        }
+        window.onload = displayWinner;
+    </script>
+</body>
+</html>

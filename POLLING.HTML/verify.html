@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voter ID Verification</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+     background: url('./IMG-20250703-WA0003.jpg') no-repeat center center fixed;
+     background-size: cover;
+
+      transition: background 0.5s;
+    }
+    .center-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .verify-form {
+        background-color: #ffffff;
+      padding: 50px 60px;
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(255, 255, 255, 0.18);
+      width: 350px;
+    }
+    .verify-form h1 {
+      color: #d00a0a;
+      margin-bottom: 30px;
+    }
+    .verify-form input[type="text"] {
+      padding: 18px 14px;
+      border: 3px solid #cc0000;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    .verify-form button {
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      background: #bebbbb;
+      color: #1d1b1b;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .verify-form button:hover {
+      background: #fa3e3e;
+      border-radius: 10px;
+    }
+    .warning {
+      color: #cc0000;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: 10px;
+    }
+    body.verified {
+     background: url('./IMG-IMG-20250703-WA0007.jpg') no-repeat center center fixed;
+    }
+    #nextSection {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .success-box {
+      background-color: #ffffff;
+      box-shadow: 0 6px 24px rgba(255, 255, 255, 0.18);
+      padding:  70px 30px ;
+     
+      border-radius: 10px;
+      text-align: center;
+    }
+    .success-message {
+      color: #038516;
+      font-size: 2rem;
+      margin-bottom: 60px;
+    }
+    #nextBtn {
+      background: #0f820f;
+      color: #ffffff;
+      font-size: 1.6rem;
+      padding: 10px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    #nextBtn:hover {
+      background: #0d130d;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="center-box" id="mainSection">
+    <form class="verify-form" id="verifyForm" onsubmit="return false;">
+      <h1>Enter Your Voter ID</h1>
+      <input type="text" id="voterIdInput" placeholder="Voter ID" maxlength="32" />
+      <button type="button" id="verifyBtn">VERIFY</button>
+      <button type="button" onclick="goBack()">BACK</button>
+      <div class="warning" id="warningMsg"></div>
+    </form>
+  </div>
+
+  <div class="center-box" id="nextSection">
+    <div class="success-box">
+      <div class="success-message">VOTER ID IS VERIFIED SUCCESSFULLY</div>
+      <button id="nextBtn">Next</button>
+      
+    </div>
+  </div>
+
+  <script>
+    const verifyBtn = document.getElementById('verifyBtn');
+    const voterIdInput = document.getElementById('voterIdInput');
+    const warningMsg = document.getElementById('warningMsg');
+    const mainSection = document.getElementById('mainSection');
+    const nextSection = document.getElementById('nextSection');
+    const nextBtn = document.getElementById('nextBtn');
+    const body = document.body;
+
+    const storedVoterIds = JSON.parse(localStorage.getItem('voterIds')) || [];
+
+    function showWarning(msg) {
+      warningMsg.textContent = msg;
+    }
+
+    function goBack() {
+      window.location.href = 'login.html';
+    }
+
+    verifyBtn.addEventListener('click', () => {
+      const enteredId = voterIdInput.value.trim().toUpperCase();
+
+      if (!enteredId) {
+        showWarning('Please enter your Voter ID.');
+        return;
+      }
+
+      const idExists = storedVoterIds.some(id => id.toUpperCase() === enteredId);
+
+      if (idExists) {
+        document.body.classList.add('verified');
+        mainSection.style.display = 'none';
+        nextSection.style.display = 'flex';
+      } else {
+        showWarning('Invalid Voter ID. Please enter a correct ID.');
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      window.location.href = 'votingpage.html';
+    });
+  </script>
+</body>
+</html>

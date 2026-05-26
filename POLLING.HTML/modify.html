@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Voter ID List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      background: url('./IMG-20250703-WA0013.jpg') no-repeat center center fixed;
+      background-size: cover;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 10vh;
+      margin: 0;
+      padding: 1px;
+      font-size: 18px;
+    }
+
+    .input-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      background-color: rgb(203, 202, 202);
+      font-size: 18px;
+      width: 300px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    /* Shared button style */
+    .button {
+      background-color: #f0eded;
+      color: rgb(0, 0, 0);
+      border: none;
+      font-weight: bold;
+      transition: background 0.3s;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+
+    .button:hover {
+      background-color: #65aaeb;
+      border-radius: 10px;
+      color: white;
+    }
+
+    table {
+      margin-top: 30px;
+      width: 60%;
+      background-color: #c9c8c8;
+      border-collapse: collapse;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    th, td {
+      border: 1px solid #262424;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      padding: 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    th {
+      background-color: #c9c8c8;
+    }
+
+    /* Positioning for back and clear buttons */
+    .back-btn, .clear-btn {
+      position: fixed;
+      bottom: 50px;
+    }
+
+    .back-btn {
+      left: 45%;
+      transform: translateX(-50%);
+    }
+
+    .clear-btn {
+      left: 55%;
+      transform: translateX(-50%);
+    }
+
+    /* Delete button style */
+    .delete-btn {
+      padding: 6px 12px;
+      font-size: 16px;
+      background-color: rgb(226, 50, 50);
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .delete-btn:hover {
+      background-color: rgb(44, 27, 27);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="input-section">
+    <h1>MODIFY VOTER ID</h1>
+    <input type="text" id="voterIdInput" placeholder="Enter Voter ID" />
+    <button class="button" onclick="addVoterId()">ADD</button>
+  </div>
+
+  <table id="voterTable">
+    <thead>
+      <tr>
+        <th>NO</th>
+        <th>VOTER ID</th>
+        <th>REMOVE ID</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button class="button back-btn" onclick="goBack()">BACK</button>
+  <button class="button clear-btn" onclick="clearVoterIds()">CLEAR ALL</button>
+
+  <script>
+    let voterIds = JSON.parse(localStorage.getItem("voterIds")) || [];
+
+    function renderTable() {
+      const tbody = document.querySelector("#voterTable tbody");
+      tbody.innerHTML = "";
+
+      voterIds.forEach((id, index) => {
+        const row = document.createElement("tr");
+
+        const cellIndex = document.createElement("td");
+        cellIndex.textContent = index + 1;
+
+        const cellId = document.createElement("td");
+        cellId.textContent = id;
+
+        const cellAction = document.createElement("td");
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = () => deleteVoterId(index);
+        cellAction.appendChild(deleteBtn);
+
+        row.appendChild(cellIndex);
+        row.appendChild(cellId);
+        row.appendChild(cellAction);
+
+        tbody.appendChild(row);
+      });
+    }
+
+    function addVoterId() {
+      const input = document.getElementById("voterIdInput");
+      const id = input.value.trim();
+
+      if (id === "") {
+        alert("Please enter a Voter ID.");
+        return;
+      }
+
+      if (voterIds.includes(id)) {
+        alert("This Voter ID already exists. Please enter a unique Voter ID.");
+        return;
+      }
+
+      voterIds.push(id);
+      localStorage.setItem("voterIds", JSON.stringify(voterIds));
+      input.value = "";
+      renderTable();
+    }
+
+    function deleteVoterId(index) {
+      voterIds.splice(index, 1);
+      localStorage.setItem("voterIds", JSON.stringify(voterIds));
+      renderTable();
+    }
+
+    function clearVoterIds() {
+      if (confirm("Are you sure you want to delete all Voter IDs?")) {
+        voterIds = [];
+        localStorage.removeItem("voterIds");
+        renderTable();
+      }
+    }
+
+    function goBack() {
+      window.location.href = "admin.html";
+    }
+
+    renderTable();
+  </script>
+
+</body>
+</html>

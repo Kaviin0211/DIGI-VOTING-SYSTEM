@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: url('./IMG-20250703-WA0011.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+    }
+
+    .logout-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .logout-btn {
+      padding: 14px 30px;
+      font-size: 1.2rem;
+      background-color: #ff4444;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: default; /* Disable pointer cursor */
+      user-select: none; /* Prevent text selection */
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #ff4444; /* No hover effect */
+    }
+
+    #timer {
+      min-width: 50px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>THANK YOU FOR VOTING</h1>
+  <p>YOUR RESPONSE HAS BEEN SUCCESSFULLY RECORDED</p>
+
+  <div class="logout-container">
+    
+    <div id="timer">logging out in 5seconds</div>
+  </div>
+
+  <script>
+    let secondsLeft = 5;
+    const timerEl = document.getElementById('timer');
+
+    const countdown = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft > 0) {
+        timerEl.textContent = `${secondsLeft} second`;
+      } else {
+        clearInterval(countdown);
+        timerEl.textContent = 'Logging out...';
+        // Redirect after short delay to show message
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 800);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

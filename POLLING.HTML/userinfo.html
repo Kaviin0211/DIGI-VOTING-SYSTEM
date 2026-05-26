@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Information</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+      
+ background: url('./IMG-20250703-WA0010.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .content {
+            flex: 1 0 auto; /* Grow and shrink as needed */
+            width: 100%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #0c0c0c;
+            
+            padding: 10px;
+            font-size: 1.99rem;
+            border-radius: 10px;
+            margin-top: 28px;
+            margin-bottom: 13px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 700px;
+            font-size: 1.5rem;
+            margin: 0 auto 20px auto;
+        }
+        table, th, td {
+            border: 1px solid #4a91e2;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+          
+        }
+        th, td {
+            padding: 6px;
+            text-align: center;
+        }
+        .buttons-container {
+            flex-shrink: 0; /* Prevent shrinking */
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn {
+            padding: 13px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #0a0b0c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 120px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0683ff;
+            border-radius: 10px;
+        }
+        .btn.clear {
+            background-color: rgb(16, 16, 16);
+        }
+        .btn.clear:hover {
+            background-color: #0095ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>USER DETAILS</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>USERS'EMAIL</th>
+                    <th>VOTED PARTY BY USER</th>
+                </tr>
+            </thead>
+            <tbody id="user-info"></tbody>
+        </table>
+    </div>
+
+    <div class="buttons-container">
+        <button onclick="goBack()" class="btn">BACK</button>
+        <button onclick="clearData()" class="btn clear">CLEAR VOTES</button>
+    </div>
+
+    <script>
+        function displayUserInfo() {
+            const voters = JSON.parse(localStorage.getItem('voters')) || {};
+            const userInfoTable = document.getElementById('user-info');
+
+            // Clear table
+            userInfoTable.innerHTML = '';
+
+            // Populate table with user data
+            for (const [email, candidate] of Object.entries(voters)) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${email}</td><td>${candidate}</td>`;
+                userInfoTable.appendChild(row);
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'admin.html';
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all voting data?')) {
+                localStorage.removeItem('voters'); // Remove voters from localStorage
+                displayUserInfo(); // Refresh table
+                alert('All voting data has been cleared!');
+            }
+        }
+
+        // Display user info on page load
+        displayUserInfo();
+    </script>
+</body>
+</html>

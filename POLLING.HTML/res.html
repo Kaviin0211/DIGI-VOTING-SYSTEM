@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ELECTION RESULT</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    font-family: Arial, sans-serif;
+   
+   background: url('./IMG-20250703-WA0012.jpg') no-repeat center center fixed;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed; /* optional */
+    background-color: #11bc53;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+  .container {
+    padding: 70px 100px;
+    border-radius: 14px;
+    
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    max-width: 900px;
+    width: 90%;
+    box-sizing: border-box;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  th, td {
+    padding: 10px 40px;
+    text-align: center;
+    border: 2px solid #1a1919;
+  }
+  th {
+    color: rgb(16, 15, 15);
+  }
+  .btn {
+    display: inline-block;
+    margin: 50px 20px 0;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #191f24;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  .btn:hover {
+    background-color: #3ab1c7;
+    border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>ELECTION RESULT</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>PARTIES</th>
+          <th>VOTES</th>
+        </tr>
+      </thead>
+      <tbody id="resultsTable"></tbody>
+    </table>
+    <br />
+    <a href="./admin.html" class="btn">BACK</a>
+    <button class="btn" onclick="clearResults()">CLEAR RESULT</button>
+  </div>
+  <script>
+    function displayResults() {
+      const resultsTable = document.getElementById('resultsTable');
+      const votes = JSON.parse(localStorage.getItem('votes')) || {};
+      resultsTable.innerHTML = '';
+      for (const [candidate, voteCount] of Object.entries(votes)) {
+        const row = `<tr><td>${candidate}</td><td>${voteCount}</td></tr>`;
+        resultsTable.innerHTML += row;
+      }
+    }
+    function clearResults() {
+      localStorage.removeItem('votes');
+      displayResults();
+      alert('Election results have been cleared.');
+    }
+    window.onload = displayResults;
+  </script>
+</body>
+</html>
